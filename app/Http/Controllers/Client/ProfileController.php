@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\PublicUserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -87,13 +88,14 @@ class ProfileController extends Controller
 
     public function dashboard()
     {
+        /** @var User $user */
         $user = auth()->user();
 
         $stats = [
             'violations' => $user->violations()->count(),
-            'active_violations' => $user->violations()->where('status', 'active')->count(),
             'appeals' => $user->violations()->whereNotNull('appealed_at')->count(),
             'reports' => $user->reports()->count(),
+            'posts' => $user->posts()->count(),
 //            'unread_notifications' => $user->unreadNotifications()->count(),
         ];
 

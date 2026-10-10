@@ -19,6 +19,12 @@ export default {
                     pattern: /^\/profile$/,
                 },
                 {
+                    label: 'Мои посты',
+                    icon: '📝',
+                    route: 'client.profile.posts.index', // ← новый пункт
+                    pattern: /^\/profile\/posts/,
+                },
+                {
                     label: 'Мои нарушения',
                     icon: '📋',
                     route: 'client.violations.index',

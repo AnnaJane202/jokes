@@ -42,6 +42,34 @@ class PostController extends Controller
         return inertia('Client/Post/Index', compact('categories', 'posts', 'type', 'topAuthors', 'recommendedUsers'));
     }
 
+    public function myPosts(Request $request)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $posts = $user->posts()
+            ->with(['category'])
+            ->withCount(['comments', 'likes'])
+            ->when($request->status === 'published', fn($q) => $q->where('published', true))
+            ->when($request->status === 'draft', fn($q) => $q->where('published', false))
+            ->latest()
+            ->paginate(10);
+
+        $posts->getCollection()->transform(fn($post) => PostResource::make($post)->resolve());
+
+        return inertia('Client/Profile/Post/Index', [
+            'posts' => $posts,
+            'filters' => $request->only(['status']),
+            'stats' => [
+                'total' => auth()->user()->posts()->count(),
+                'published' => auth()->user()->posts()->where('published', true)->count(),
+                'draft' => auth()->user()->posts()->where('published', false)->count(),
+            ],
+        ]);
+
+
+    }
+
     public function show(Post $post)
     {
         // Загружаем все необходимые отношения
@@ -78,5 +106,16 @@ class PostController extends Controller
 //            ->with('success', 'Пост успешно обновлён');
 
         return PostResource::make($post)->resolve();
+    }
+
+    public function destroy(Post $post)
+    {
+        $this->authorize('delete', $post);
+
+        $post->delete(); // soft delete, если есть trait
+
+        return redirect()
+            ->route('post.index')
+            ->with('success', 'Пост удалён');
     }
 }

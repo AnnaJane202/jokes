@@ -22,7 +22,7 @@ export default {
         <h1 class="text-2xl font-bold mb-6">Личный кабинет</h1>
 
         <div class="flex items-center gap-4 mb-6">
-            <img :src="user.avatar" class="w-20 h-20 rounded-full border" />
+            <img :src="user.avatar" :alt="user.name" class="w-8 h-8 rounded-full" />
             <div>
                 <h2 class="text-xl font-semibold">{{ user.name }}</h2>
                 <p class="text-gray-500 text-sm">Зарегистрирован: {{ user.created_at }}</p>
@@ -45,6 +45,14 @@ export default {
 <!--                <div class="text-2xl font-bold text-yellow-600">{{ stats.appeals }}</div>-->
 <!--                <div class="text-sm text-gray-600">Апелляций</div>-->
 <!--            </Link>-->
+
+            <Link
+                :href="route('client.profile.posts.index')"
+                class="bg-green-50 border border-green-200 rounded-lg p-4 hover:bg-green-100 transition"
+            >
+                <div class="text-2xl font-bold text-green-600">{{ stats.posts || 0 }}</div>
+                <div class="text-sm text-gray-600">Моих постов</div>
+            </Link>
 
             <Link
                 :href="route('client.reports.index')"

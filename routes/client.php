@@ -52,6 +52,8 @@ Route::name('client.')->middleware(['auth', 'check.banned'])->group(function () 
     Route::get('/posts/create', [\App\Http\Controllers\Client\PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [\App\Http\Controllers\Client\PostController::class, 'store'])->name('posts.store');
     Route::get('/posts/{post}', [\App\Http\Controllers\Client\PostController::class, 'show'])->name('posts.show');
+    Route::get('/posts', [\App\Http\Controllers\Client\PostController::class, 'myPosts'])->name('profile.posts.index');
+    Route::delete('/{post}', [\App\Http\Controllers\Client\PostController::class, 'destroy'])->name('posts.destroy');
     Route::put('/posts/{post}/comments/{comment}', [CommentController::class, 'update'])->name('posts.comments.update');
 
     Route::get('/reports/create/{type}/{id}', [ReportController::class, 'create'])->name('reports.create');
