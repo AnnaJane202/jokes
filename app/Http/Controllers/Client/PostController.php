@@ -51,6 +51,7 @@ class PostController extends Controller
             ->with(['category'])
             ->withCount(['comments', 'likes'])
             ->when($request->status === 'published', fn($q) => $q->where('published', true))
+
             ->when($request->status === 'draft', fn($q) => $q->where('published', false))
             ->latest()
             ->paginate(10);
