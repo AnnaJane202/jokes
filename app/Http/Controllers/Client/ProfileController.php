@@ -86,6 +86,24 @@ class ProfileController extends Controller
         return back()->with('success', 'Аватар успешно обновлён');
     }
 
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        $user->delete();
+
+        return redirect('/')->with('success', 'Аккаунт удалён');
+    }
+
     public function dashboard()
     {
         /** @var User $user */

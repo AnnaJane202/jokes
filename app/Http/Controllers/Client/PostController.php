@@ -112,11 +112,10 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $this->authorize('delete', $post);
-
-        $post->delete(); // soft delete, если есть trait
+        $post->delete();
 
         return redirect()
-            ->route('post.index')
+            ->route('client.profile.posts.index')  // ← не забудьте
             ->with('success', 'Пост удалён');
     }
 }

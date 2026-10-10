@@ -52,8 +52,8 @@ Route::name('client.')->middleware(['auth', 'check.banned'])->group(function () 
     Route::get('/posts/create', [\App\Http\Controllers\Client\PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [\App\Http\Controllers\Client\PostController::class, 'store'])->name('posts.store');
     Route::get('/posts/{post}', [\App\Http\Controllers\Client\PostController::class, 'show'])->name('posts.show');
-    Route::get('/posts', [\App\Http\Controllers\Client\PostController::class, 'myPosts'])->name('profile.posts.index');
-    Route::delete('/{post}', [\App\Http\Controllers\Client\PostController::class, 'destroy'])->name('posts.destroy');
+    Route::get('/profile/posts', [\App\Http\Controllers\Client\PostController::class, 'myPosts'])->name('profile.posts.index');
+//    Route::delete('/{post}', [\App\Http\Controllers\Client\PostController::class, 'destroy'])->name('posts.destroy');
     Route::put('/posts/{post}/comments/{comment}', [CommentController::class, 'update'])->name('posts.comments.update');
 
     Route::get('/reports/create/{type}/{id}', [ReportController::class, 'create'])->name('reports.create');
@@ -65,6 +65,7 @@ Route::name('client.')->middleware(['auth', 'check.banned'])->group(function () 
 
     Route::get('/profile/edit', [\App\Http\Controllers\Client\ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [\App\Http\Controllers\Client\ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [\App\Http\Controllers\Client\ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/profile/avatar', [\App\Http\Controllers\Client\ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
 
@@ -80,7 +81,7 @@ Route::name('client.')->middleware(['auth', 'check.banned'])->group(function () 
 //    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 //    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/posts/{post}', [\App\Http\Controllers\Client\PostController::class, 'destroy'])->name('posts.destroy');
 
 
 });
