@@ -13,7 +13,7 @@ class UserObserver
     public function created(User $user): void
     {
         $role = Role::firstOrCreate(['title' => 'user']);
-        $user->roles()->attach($role->id);
+        $user->roles()->syncWithoutDetaching([$role->id]);
     }
 
 //    protected function getDefaultRoleId()
